@@ -5,15 +5,25 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Blockly threex</title>
+    <meta name="description" content="graphic language to play with three.js webgl">
+    <meta name="author" content="jerome etienne">
+
+    <title>Blockly Threex</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="vendor/bootstrap/css/justified-nav.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 50px;
+      }
+      .starter-template {
+        padding: 40px 15px;
+        text-align: center;
+      }
+    </style>
+
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -25,7 +35,6 @@
   </head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -39,61 +48,66 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
+            <li class="active"><a href="https://github.com/jeromeetienne/blockly-threex/" target='_blank'>Github</a></li>
             <li><a href="https://twitter.com/jerome_etienne" target='_blank'>by @jerome_etienne</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
+    <div class="container">
 
-      <div class="masthead">
-        <h3 class="text-muted">Project name</h3>
-        <ul class="nav nav-justified">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Projects</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Downloads</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
 
       <!-- Jumbotron -->
       <div class="jumbotron">
-        <h1>Marketing stuff!</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+        <h1>Blockly Threex&nbsp;<small>Graphic Language for three.js</small></h1>
+        <p class="lead">Sometime it is easier to learn something with 
+          graphical representation than with textual one.
+          I experimented on this using 
+          <a href='https://code.google.com/p/blockly/'>Blockly</a>
+          and
+          <a href='http://threejs.org/'>three.js</a>.
+          You controls a robot in webgl and modify its behavior as you wish.
+          Definitly very fun way to learn programmation thru game development.
+        </p>
+        <p><a class="btn btn-lg btn-success" href="index0.html" role="button">Get started today</a></p>
       </div>
 
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-lg-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+          <h2>Graphical Language</h2>
+          <p>The language you use to code is <a href='https://code.google.com/p/blockly/'>Blockly</a>,
+            a web-based, graphical programming editor.
+          </p>
         </div>
         <div class="col-lg-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+          <h2>WebGL thru three.js</h2>
+          <p>
+            Always trying to make three.js easier for beginners. Now you can use it without even knowing javascript.
+            Maybe without even knowing how to code itself.
+          </p>
        </div>
         <div class="col-lg-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
+          <h2>Easier to Learn</h2>
+          <p>
+            Thanks to <em>Blockly</em>, you can't do any syntax error.
+            Thanks to <em>three.js</em> you got fancy display where you can have fun customizing your very
+            own character.
+          </p>
         </div>
-      </div>
-
-      <!-- Site footer -->
-      <div class="footer">
-        <p>&copy; Company 2013</p>
       </div>
 
     </div> <!-- /container -->
 
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+    
     <!-- github ribbon -->
     <a href="https://github.com/jeromeetienne/blockly-threex/" target='_blank'><img style="position: absolute; top: 0; right: 0; border: 0;z-index:2000" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+
   </body>
 </html>
