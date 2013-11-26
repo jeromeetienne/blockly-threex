@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blockly Demo: Iframe Blockly</title>
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border-style: solid;
+      border-color: #ddd;
+      border-width: 0 1px 1px 0;
+    }
+  </style>
+</head>
+<body>
+  <table width="100%" height="99%">
+    <tr>
+	<td>
+		<button id='saveButton'>Save</button>
+		<button id='resetButton'>Reset</button>
+		<button id='runButton'>Run</button>
+		<span id='modifiedStatus'>saved</span>
+	</td>
+    </tr>
+    <tr>
+      <td height="99%" width="50%">
+	<iframe src="frame-edit/frame-edit.html"></iframe>
+      </td>
+      <td height="99%">
+	<iframe class='viewFrame' src="frame-view/index.html"></iframe>
+      </td>
+    </tr>
+  </table>
+<script>
+	// export blockly namespace locally
+	window.addEventListener('blocklyReady', function(event){
+		window.Blockly = event.detail.Blockly;
+	})
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		comment								//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	// autoload content if present
+	window.addEventListener('blocklyReady', function(){
+		Blockly.addChangeListener(function(){
+			// NOTE - it seems to be called even if there it no change in the workspace
+			document.querySelector('#modifiedStatus').innerText	= 'modified'
+		})
+		Blockly.mainWorkspace.traceOn(true);
+	})
+	window.addEventListener('blocklyReady', function(){
+		if( location.hash )	loadWorkspace()
+	})
+	document.querySelector('#runButton').addEventListener('click', function(event){
+		saveWorkspace()
+		runWorkspace()
+	})
+	document.querySelector('#saveButton').addEventListener('click', function(event){
+		saveWorkspace()
+	})
+	document.querySelector('#resetButton').addEventListener('click', function(event){
+		resetWorkspace()
+		
+		var viewIframe	= document.querySelector('iframe.viewFrame')
+		viewIframe.contentWindow.location.reload()
+	})
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		comment								//
+	//////////////////////////////////////////////////////////////////////////////////
+
+	function saveWorkspace(){
+		var xmlDom	= Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+		var xmlText	= Blockly.Xml.domToText(xmlDom)
+		window.location.hash	= encodeURIComponent(xmlText)
+		
+		// changed modifiedStatus
+		document.querySelector('#modifiedStatus').innerText	= 'saved'
+	}
+	function loadWorkspace(){
+	  	console.assert(location.hash)
+		var xmlText	= decodeURIComponent(location.hash.substr(1))
+		var xmlDoc	= Blockly.Xml.textToDom(xmlText);
+		Blockly.Xml.domToWorkspace(Blockly.getMainWorkspace(), xmlDoc)	  	
+	}
+	function runWorkspace(){
+		var generatedCode	= Blockly.JavaScript.workspaceToCode();
+		console.log('generatedCode', generatedCode)
+		var iframeView		= document.querySelector('iframe.viewFrame')
+		iframeView.contentWindow.run(generatedCode);
+	}
+	function resetWorkspace(){
+		Blockly.mainWorkspace.clear();
+	}
+</script>
+</body></html>
+
+
+
+
