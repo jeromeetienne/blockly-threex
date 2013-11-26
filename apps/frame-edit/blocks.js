@@ -92,8 +92,22 @@ Blockly.JavaScript['draw_turn'] = function(block) {
 Blockly.Blocks['draw_skin'] = {
 	init: function() {
 		var items = [
-			['3djesus', '3djesus'],
+			['3djesus','3djesus'],
+			['iron-man', 'iron-man'],
+			['joker', 'joker'],
+			['mario', 'mario'],
+			['sonicthehedgehog', 'sonicthehedgehog'],
+			['spiderman', 'spiderman'],
+			['superman', 'superman'],
+			['agentsmith', 'agentsmith'],
+			['batman', 'batman'],
+			['char', 'char'],
+			['god', 'god'],
 			['jetienne', 'jetienne'],
+			['martialartist', 'martialartist'],
+			['robocop', 'robocop'],
+			['theflash', 'theflash'],
+			['woody', 'woody'],
 		];
 		this.setColour(210);
 		this.appendDummyInput()

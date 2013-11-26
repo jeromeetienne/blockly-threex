@@ -57,9 +57,8 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 	Turtle.turn	= function(angle){
 		object3d.rotation.y	+= angle
 	}
-	Turtle.skin	= function(basename){
-		var imageUrl	= THREEx.MinecraftChar.baseUrl + 'images/'+basename+'.png';
-		player.character.loadSkin(imageUrl)
+	Turtle.skin	= function(wellKnownSkin){
+		player.character.loadWellKnownSkin(wellKnownSkin)
 	}
 	Turtle.nickname	= function(text){
 		player.setNickname(text)

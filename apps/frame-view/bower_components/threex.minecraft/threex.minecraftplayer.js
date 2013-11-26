@@ -78,7 +78,6 @@ THREEx.MinecraftPlayer	= function(){
 		var canvas	= THREEx.MinecraftPlayer._buildNickCartouche(nickName);
 		var texture	= new THREE.Texture(canvas)
 		texture.needsUpdate	= true
-		console.log('texture', texture)
 		// build the sprite itself
 		var material	= new THREE.SpriteMaterial({
 			map			: texture,
