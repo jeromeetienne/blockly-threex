@@ -12,10 +12,10 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 
-	var updateFcts	= [];
-	var scene	= new THREE.Scene();
-	var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000 );
-	camera.position.z = 4;
+	var updateFcts	= []
+	var scene	= new THREE.Scene()
+	var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000 )
+	camera.position.z = 4
 
 	//////////////////////////////////////////////////////////////////////////////////
 	//		window resize							//
@@ -126,7 +126,7 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 	}, false)
 	updateFcts.push(function(delta, now){
 		camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
-		camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
+		camera.position.y += (mouse.y*5 - camera.position.y+2) * (delta*3)
 		camera.lookAt( scene.position )
 	})
 

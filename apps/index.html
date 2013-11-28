@@ -64,7 +64,13 @@
 		Blockly.mainWorkspace.traceOn(true);
 	})
 	window.addEventListener('blocklyReady', function(){
-		if( location.hash )	loadWorkspace()
+		if( location.hash ){
+			loadWorkspace()
+			setTimeout(function(){
+				// should have the viewer iframe ready... 
+				runWorkspace()	
+			}, 500);	// couch couch
+		}
 	})
 	document.querySelector('#runButton').addEventListener('click', function(event){
 		saveWorkspace()
