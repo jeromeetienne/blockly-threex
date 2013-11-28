@@ -5,6 +5,8 @@
 require([ 'bower_components/threex.minecraft/package.require.js'
 	, 'bower_components/threex.skymap/package.require.js'
 	, 'bower_components/threex.windowresize/package.require.js'
+	, 'bower_components/threex.montainsarena/package.require.js'
+	, 'bower_components/threex.grassground/package.require.js'
 	], function(){
 	var renderer	= new THREE.WebGLRenderer();
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -20,6 +22,26 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 	//////////////////////////////////////////////////////////////////////////////////
 			
 	var winResize	= new THREEx.WindowResize(renderer, camera)
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add the grass ground				//
+	//////////////////////////////////////////////////////////////////////////////////	
+	var mesh	= new THREEx.GrassGround({
+		width		: 10,
+		height		: 10,
+		repeatX		: 10,
+		repeatY		: 10,
+	})
+	mesh.scale.multiplyScalar(10)
+	console.dir(mesh)
+	scene.add(mesh)
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add the grass ground				//
+	//////////////////////////////////////////////////////////////////////////////////	
+	var mesh	= new THREEx.MontainsArena()
+	mesh.scale.multiplyScalar(50)
+	scene.add(mesh)
 
 	//////////////////////////////////////////////////////////////////////////////////
 	//		comment								//

@@ -2,8 +2,8 @@ Block to code for threex games
 
 WebPage UI
 ==========
-* go in bootstrap
-* make it accessible in the root 
+* go in bootstrap ?
+* DONE make it accessible in the root 
 * DONE button 'run'
 * DONE button 'clear'
 * DONE button 'save'
