@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<script src='vendor/three.js/build/three.js'></script>
+<script src="vendor/require.js/require.js"></script>
+<body style='margin: 0px; background-color: #bbbbbb;overflow: hidden;'><script>
+require([ 'bower_components/threex.minecraft/package.require.js'
+	, 'bower_components/threex.skymap/package.require.js'
+	, 'bower_components/threex.windowresize/package.require.js'
+	, 'bower_components/threex.montainsarena/package.require.js'
+	, 'bower_components/threex.grassground/package.require.js'
+	], function(){
+	var renderer	= new THREE.WebGLRenderer();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+
+	var updateFcts	= []
+	var scene	= new THREE.Scene()
+	var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000 )
+	camera.position.z = 4
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		window resize							//
+	//////////////////////////////////////////////////////////////////////////////////
+			
+	var winResize	= new THREEx.WindowResize(renderer, camera)
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add the grass ground				//
+	//////////////////////////////////////////////////////////////////////////////////	
+	var mesh	= new THREEx.GrassGround({
+		width		: 10,
+		height		: 10,
+		repeatX		: 10,
+		repeatY		: 10,
+	})
+	mesh.scale.multiplyScalar(10)
+	console.dir(mesh)
+	scene.add(mesh)
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add the grass ground				//
+	//////////////////////////////////////////////////////////////////////////////////	
+	var mesh	= new THREEx.MontainsArena()
+	mesh.scale.multiplyScalar(50)
+	scene.add(mesh)
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		comment								//
+	//////////////////////////////////////////////////////////////////////////////////
+
+	var player	= new THREEx.MinecraftPlayer()
+	scene.add(player.character.root)
+	updateFcts.push(function(delta, now){
+		player.update(delta, now)
+	})
+
+	// add the initial skymap
+	var skymapMesh	= THREEx.createSkymap('mars')
+	scene.add( skymapMesh );
+
+	// the function called to run the generatedCode
+	window.run	= function run(generatedCode){
+		console.log('generatedCode inside view iframe', generatedCode)
+		eval(generatedCode)
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		blocky API							//
+	//////////////////////////////////////////////////////////////////////////////////
+
+	var object3d	= player.character.root
+	var Turtle	= {}
+	window.Turtle	= Turtle
+	Turtle.move	= function(distance){
+		var velocity	= new THREE.Vector3(0, 0, distance);
+		var matrix	= new THREE.Matrix4().makeRotationY(object3d.rotation.y);
+		velocity.applyMatrix4( matrix );
+		object3d.position.add(velocity);
+	}
+	Turtle.turn	= function(angle){
+		object3d.rotation.y	+= angle
+	}
+	Turtle.skin	= function(wellKnownSkin){
+		player.character.loadWellKnownSkin(wellKnownSkin)
+	}
+	Turtle.nickname	= function(text){
+		player.setNickname(text)
+	}
+	Turtle.say	= function(text){
+		player.setSay(text)
+	}
+	Turtle.skymap	= function(wellKnownUrl){
+		if( skymapMesh ){
+			scene.remove(skymapMesh)
+			skymapMesh	= null
+		}
+		skymapMesh	= THREEx.createSkymap(wellKnownUrl)
+		scene.add( skymapMesh );
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		controls.input based on keyboard				//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	document.body.addEventListener('keydown', function(event){
+		var input	= player.controls.input
+		if( event.keyCode === 'W'.charCodeAt(0) )	input.up	= true
+		if( event.keyCode === 'S'.charCodeAt(0) )	input.down	= true
+		if( event.keyCode === 'A'.charCodeAt(0) )	input.left	= true
+		if( event.keyCode === 'D'.charCodeAt(0) )	input.right	= true
+	})
+	document.body.addEventListener('keyup', function(event){
+		var input	= player.controls.input
+		if( event.keyCode === 'W'.charCodeAt(0) )	input.up	= false
+		if( event.keyCode === 'S'.charCodeAt(0) )	input.down	= false
+		if( event.keyCode === 'A'.charCodeAt(0) )	input.left	= false
+		if( event.keyCode === 'D'.charCodeAt(0) )	input.right	= false
+	})
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Camera Controls							//
+	//////////////////////////////////////////////////////////////////////////////////
+	var mouse	= {x : 0, y : 0}
+	document.addEventListener('mousemove', function(event){
+		mouse.x	= (event.clientX / window.innerWidth ) - 0.5
+		mouse.y	= (event.clientY / window.innerHeight) - 0.5
+	}, false)
+	updateFcts.push(function(delta, now){
+		camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
+		camera.position.y += (mouse.y*5 - camera.position.y+2) * (delta*3)
+		camera.lookAt( scene.position )
+	})
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		render the scene						//
+	//////////////////////////////////////////////////////////////////////////////////
+	updateFcts.push(function(){
+		renderer.render( scene, camera );		
+	})
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		loop runner							//
+	//////////////////////////////////////////////////////////////////////////////////
+	var lastTimeMsec= null
+	requestAnimationFrame(function animate(nowMsec){
+		// keep looping
+		requestAnimationFrame( animate );
+		// measure time
+		lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+		var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+		lastTimeMsec	= nowMsec
+		// call each update function
+		updateFcts.forEach(function(updateFn){
+			updateFn(deltaMsec/1000, nowMsec/1000)
+		})
+	})
+})
+</script></body>

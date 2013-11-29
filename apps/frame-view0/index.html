@@ -53,15 +53,16 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 		player.update(delta, now)
 	})
 
+	// add the initial skymap
+	var skymapMesh	= THREEx.createSkymap('mars')
+	scene.add( skymapMesh );
+
 	// the function called to run the generatedCode
 	window.run	= function run(generatedCode){
 		console.log('generatedCode inside view iframe', generatedCode)
 		eval(generatedCode)
 	}
 
-	// add the initial skymap
-	var skymapMesh	= THREEx.createSkymap('mars')
-	scene.add( skymapMesh );
 
 	//////////////////////////////////////////////////////////////////////////////////
 	//		blocky API							//
@@ -95,6 +96,11 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 		}
 		skymapMesh	= THREEx.createSkymap(wellKnownUrl)
 		scene.add( skymapMesh );
+	}
+
+	var commands	= [];
+	Turtle.move	= function(distance){
+		commands.push('Turtle._move('+distance+');')
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////
