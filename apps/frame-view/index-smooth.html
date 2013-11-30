@@ -69,8 +69,7 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 			console.log('running command', command)
 			eval(command)
 			if( commands.length === 0 )	return
-			var duration	= 1000
-			setTimeout(callback, duration)
+			setTimeout(callback, stepDelay*1000)
 		}, 0)
 	}
 
@@ -80,6 +79,7 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 	//////////////////////////////////////////////////////////////////////////////////
 
 	var commands;
+	var stepDelay	= 0.5
 	function queueCommand(fnName, args){
 		args		= Array.prototype.slice.call(args);
 		var commandStr	= 'Turtle._'+fnName+'('+args.join(',')+');' 
@@ -95,13 +95,32 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 		var velocity	= new THREE.Vector3(0, 0, distance);
 		var matrix	= new THREE.Matrix4().makeRotationY(object3d.rotation.y);
 		velocity.applyMatrix4( matrix );
-		object3d.position.add(velocity);
+
+		// Hook callback for stepDelay seconds
+		updateFcts.push(callback)
+		setTimeout(function(){
+			updateFcts.splice(updateFcts.indexOf(callback),1)
+		}, stepDelay*1000)
+		
+		function callback(delta, now){
+			var step	= velocity.clone().multiplyScalar(delta/stepDelay)
+			object3d.position.add(step);
+		}
 	}
 	Turtle.move	= function(distance){
 		commands.push('Turtle._move('+distance+');');
 	}
 	Turtle._turn	= function(angle){
-		object3d.rotation.y	+= angle
+		// Hook callback for stepDelay seconds
+		updateFcts.push(callback)
+		setTimeout(function(){
+			updateFcts.splice(updateFcts.indexOf(callback),1)
+		}, stepDelay*1000)
+		
+		function callback(delta, now){
+			console.log('callb')
+			object3d.rotation.y += delta*angle/stepDelay;
+		}
 	}
 	Turtle.turn	= function(angle){
 		commands.push('Turtle._turn('+angle+');');
@@ -118,7 +137,6 @@ require([ 'bower_components/threex.minecraft/package.require.js'
 	Turtle.nickname	= function(text){
 		commands.push('Turtle._nickname("'+text+'");');
 	}	
-	Turtle.nickname	= function(){ queueCommand('nickname', arguments)	}
 	Turtle._say	= function(text){
 		player.setSay(text)
 	}
